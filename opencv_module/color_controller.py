@@ -69,7 +69,7 @@ def extract_colors(image_list, main_color_num=5):
     return typical_colors
 
 
-def image_generator(color_list, local_file_path, image_width=100, image_height=20):
+def image_generator(color_list, local_file_path, image_width=200, image_height=50):
     """抽出した代表色で画像を作成し、ローカルに保存する
 
     Args:

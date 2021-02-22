@@ -1,5 +1,9 @@
 from services import twitter_controller
 from opencv_module import color_controller
+import sys
+
+# コマンドライン引数（分析対象TwitterユーザーID）
+args = sys.argv
 
 # Twitter認証情報を格納したJSONファイルパス
 TWITTER_AUTH_INFO_FILE_PATH = 'auth_keys/twitter_auth_info.json'
@@ -10,7 +14,7 @@ GOOGLE_AUTH_INFO_FILE_PATH = ''
 LOCAL_FILE_PATH = 'results/images/image.png'
 
 # 検索対象のユーザー名
-USER_ID = 'testusertw1'
+USER_ID = args[1]
 # 検索結果の最大数
 SEARCH_MAX_COUNT = 100
 
