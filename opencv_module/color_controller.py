@@ -83,7 +83,6 @@ def image_generator(color_list, local_file_path, image_width=100, image_height=2
     create_image = np.zeros((image_height, image_width_mod, 3), np.uint8)
 
     for color_indx, color in enumerate(color_list):
-        print(color_indx)
         startX = color_indx * image_width_per_color
         endX = (color_indx + 1) * image_width_per_color
         create_image[0:image_height, startX:endX] = color
