@@ -3,16 +3,20 @@ import cv2
 import requests
 
 
-def get_color_image(image_urls):
+def get_color_image(image_urls, local_file_path):
     """画像URLから画像データ取得し、画像の代表色を抽出.
         取得した代表色で画像を作成.
 
     Args:
         image_urls (list): 画像URLのリスト
+        local_file_path (str): 画像の保存先
 
     Returns:
         Numpy: 代表色の画像
     """
+    if not image_urls:
+        return
+
     image_list = []
     # 画像URLから画像データを取得
     for url in image_urls:
@@ -24,11 +28,11 @@ def get_color_image(image_urls):
     color_list = extract_colors(image_list)
 
     # 抽出した色を基に1枚の画像を作成
-    colors_image = image_generator(color_list)
+    colors_image = image_generator(color_list, local_file_path)
 
     # 画像確認用
-    cv2.imshow('aaa', colors_image)
-    cv2.waitKey(0)
+    # cv2.imshow('aaa', colors_image)
+    # cv2.waitKey(0)
 
     return colors_image
 
@@ -57,24 +61,22 @@ def extract_colors(image_list, main_color_num=5):
 
     criteria = (cv2.TERM_CRITERIA_EPS +
                 cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
-    _, _, center = cv2.kmeans(np.float32(
-        all_pixels), main_color_num, None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
+    _, _, center = cv2.kmeans(np.float32(all_pixels), main_color_num,
+                              None, criteria, 10, cv2.KMEANS_RANDOM_CENTERS)
 
     typical_colors = np.array(center, np.int)
 
     return typical_colors
 
 
-def image_generator(color_list, image_width=100, image_height=20):
-    """抽出した代表色で画像を作成する
+def image_generator(color_list, local_file_path, image_width=100, image_height=20):
+    """抽出した代表色で画像を作成し、ローカルに保存する
 
     Args:
         color_list (NumPy): 代表色データのリスト
+        local_file_path (str): 画像の保存先
         image_width (int, optional): 作成画像の横幅. Defaults to 100.
         image_height (int, optional): 作成画像の高さ. Defaults to 20.
-
-    Returns:
-        NumPy: 代表色の画像
     """
     image_width_per_color = int(image_width/len(color_list))
     image_width_mod = image_width_per_color * len(color_list)
@@ -86,4 +88,6 @@ def image_generator(color_list, image_width=100, image_height=20):
         endX = (color_indx + 1) * image_width_per_color
         create_image[0:image_height, startX:endX] = color
 
-    return create_image
+    cv2.imwrite(local_file_path, create_image)
+
+    return
