@@ -1,5 +1,6 @@
 import numpy as np
 import cv2
+import os
 import requests
 
 
@@ -86,6 +87,9 @@ def image_generator(color_list, local_file_path, image_width=200, image_height=5
         startX = color_indx * image_width_per_color
         endX = (color_indx + 1) * image_width_per_color
         create_image[0:image_height, startX:endX] = color
+
+    # 保存用ディレクトリ作成
+    os.makedirs(local_file_path, exist_ok=True)
 
     cv2.imwrite(local_file_path, create_image)
 
