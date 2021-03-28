@@ -1,0 +1,6 @@
+{
+    "consumer_key": "コンシューマーキー",
+    "consumer_secret": "コンシューマーシークレット",
+    "access_token_key": "アクセストークンキー",
+    "access_token_secret": "アクセストークンシークレット"
+}
